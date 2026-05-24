@@ -186,6 +186,45 @@ select {
     color: #94a3b8;
 }
 
+/* Static Tooltip inside Chart */
+.static-tooltip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(45, 55, 72, 0.95);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 2px;
+    font-size: 11px;
+    border: 1px solid #cbd5e1;
+    z-index: 10;
+    pointer-events: none;
+    white-space: nowrap;
+    line-height: 1.4;
+    margin-left: 15px; /* Offset from the left arrow */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+.static-tooltip::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -6px;
+    transform: translateY(-50%);
+    border-width: 5px 6px 5px 0;
+    border-style: solid;
+    border-color: transparent #cbd5e1 transparent transparent;
+}
+.static-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -4px;
+    transform: translateY(-50%);
+    border-width: 4px 5px 4px 0;
+    border-style: solid;
+    border-color: transparent rgba(45, 55, 72, 0.95) transparent transparent;
+}
+
 /* Stats Panel */
 .stats-panel {
     flex: 1;
