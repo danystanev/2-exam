@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Translations
     const dictionary = {
         en: {
-            lang: "🇺🇸 Language",
+            lang: "Language",
             curr: "Currency",
             start: "Campaign Start",
             end: "Campaign End",
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             customersTooltip: "Customers"
         },
         bg: {
-            lang: "🇧🇬 Език",
+            lang: "Език",
             curr: "Валута",
             start: "Начало на кампания",
             end: "Край на кампания",
