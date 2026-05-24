@@ -148,21 +148,24 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
                 <div class="chart-row-label">${i}</div>
                 <div class="chart-bar-group">
-                    <div class="bar bar-prospects" style="width: ${pWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
-                    <div class="bar bar-leads" style="width: ${lWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
-                    <div class="bar bar-customers" style="width: ${cWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
+                    <div class="bar bar-prospects" style="width: 0%" data-width="${pWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
+                    <div class="bar bar-leads" style="width: 0%" data-width="${lWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
+                    <div class="bar bar-customers" style="width: 0%" data-width="${cWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
                 </div>
             `;
             chartContainer.appendChild(row);
         }
 
-        // Add tooltip listeners
-        const bars = document.querySelectorAll(".bar");
-        bars.forEach(bar => {
-            bar.addEventListener("mouseenter", showTooltip);
-            bar.addEventListener("mousemove", moveTooltip);
-            bar.addEventListener("mouseleave", hideTooltip);
-        });
+        // Trigger animations
+        setTimeout(() => {
+            const bars = document.querySelectorAll(".bar");
+            bars.forEach(bar => {
+                bar.style.width = bar.getAttribute("data-width");
+                bar.addEventListener("mouseenter", showTooltip);
+                bar.addEventListener("mousemove", moveTooltip);
+                bar.addEventListener("mouseleave", hideTooltip);
+            });
+        }, 50);
     }
 
     function showTooltip(e) {
@@ -172,17 +175,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const m = e.target.getAttribute("data-month");
         const t = dictionary[currentLang];
         
-        tooltip.innerHTML = `${t.monthTooltip} #${m}<br>${t.prospectsTooltip}: ${p}<br>${t.leadsTooltip}: ${l}<br>${t.customersTooltip}: ${c}`;
-        tooltip.style.opacity = "1";
+        tooltip.innerHTML = `<strong>${t.monthTooltip} #${m}</strong><br>${t.prospectsTooltip}: ${p}<br>${t.leadsTooltip}: ${l}<br>${t.customersTooltip}: ${c}`;
+        tooltip.classList.add("visible");
     }
 
     function moveTooltip(e) {
-        tooltip.style.left = e.pageX + 10 + "px";
-        tooltip.style.top = e.pageY + 10 + "px";
+        tooltip.style.left = e.pageX + 15 + "px";
+        tooltip.style.top = e.pageY + 15 + "px";
     }
 
     function hideTooltip() {
-        tooltip.style.opacity = "0";
+        tooltip.classList.remove("visible");
     }
 
     // Language change listener
