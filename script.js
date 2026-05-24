@@ -1,4 +1,67 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Translations
+    const dictionary = {
+        en: {
+            lang: "Language",
+            curr: "Currency",
+            start: "Campaign Start",
+            end: "Campaign End",
+            rev: "Total Revenue",
+            aov: "Avg. Order Value",
+            months: "Months",
+            prospects: '<i class="fas fa-folder"></i> Prospects',
+            leads: '<i class="fas fa-user"></i> Leads',
+            customers: '<i class="fas fa-trophy"></i> Customers',
+            leadRate: "Lead Response Rate",
+            prospectRate: "Prospect Response Rate",
+            people: "people",
+            monthTooltip: "Month",
+            prospectsTooltip: "Prospects",
+            leadsTooltip: "Leads",
+            customersTooltip: "Customers"
+        },
+        bg: {
+            lang: "Език",
+            curr: "Валута",
+            start: "Начало на кампания",
+            end: "Край на кампания",
+            rev: "Общи приходи",
+            aov: "Средна поръчка",
+            months: "Месеци",
+            prospects: '<i class="fas fa-folder"></i> Проспекти',
+            leads: '<i class="fas fa-user"></i> Лийдове',
+            customers: '<i class="fas fa-trophy"></i> Клиенти',
+            leadRate: "Отговор на Лийдове",
+            prospectRate: "Отговор на Проспекти",
+            people: "души",
+            monthTooltip: "Месец",
+            prospectsTooltip: "Проспекти",
+            leadsTooltip: "Лийдове",
+            customersTooltip: "Клиенти"
+        }
+    };
+    let currentLang = "en";
+
+    function updateLanguage() {
+        const t = dictionary[currentLang];
+        document.querySelector('label[for="language"]').innerText = t.lang;
+        document.querySelector('label[for="currency"]').innerText = t.curr;
+        document.querySelector('label[for="camp-start"]').innerText = t.start;
+        document.querySelector('label[for="camp-end"]').innerText = t.end;
+        document.querySelector('label[for="total-revenue"]').innerText = t.rev;
+        document.querySelector('label[for="avg-order-value"]').innerText = t.aov;
+        document.querySelector('.y-axis-label').innerText = t.months;
+        document.querySelector('label[for="lead-rate"]').innerText = t.leadRate;
+        document.querySelector('label[for="prospect-rate"]').innerText = t.prospectRate;
+        
+        document.querySelector('.stat-card:nth-child(1) .stat-header div:first-child').innerHTML = t.prospects;
+        document.querySelector('.stat-card:nth-child(2) .stat-header div:first-child').innerHTML = t.leads;
+        document.querySelector('.stat-card:nth-child(3) .stat-header div:first-child').innerHTML = t.customers;
+
+        // Re-render chart texts 
+        calculate();
+    }
+
     // Inputs
     const revenueInput = document.getElementById("total-revenue");
     const aovInput = document.getElementById("avg-order-value");
@@ -64,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for(let i=0; i<=5; i++){
             let tickVal = Math.round((maxVal / 5) * i);
             let tick = document.createElement('span');
-            tick.innerText = tickVal + " people";
+            tick.innerText = tickVal + " " + dictionary[currentLang].people;
             xAxis.appendChild(tick);
         }
         chartContainer.appendChild(xAxis);
@@ -107,8 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const l = e.target.getAttribute("data-l");
         const c = e.target.getAttribute("data-c");
         const m = e.target.getAttribute("data-month");
+        const t = dictionary[currentLang];
         
-        tooltip.innerHTML = `Month #${m}<br>Prospects: ${p}<br>Leads: ${l}<br>Customers: ${c}`;
+        tooltip.innerHTML = `${t.monthTooltip} #${m}<br>${t.prospectsTooltip}: ${p}<br>${t.leadsTooltip}: ${l}<br>${t.customersTooltip}: ${c}`;
         tooltip.style.opacity = "1";
     }
 
@@ -120,6 +184,13 @@ document.addEventListener("DOMContentLoaded", () => {
     function hideTooltip() {
         tooltip.style.opacity = "0";
     }
+
+    // Language change listener
+    const langSelect = document.getElementById("language");
+    langSelect.addEventListener("change", (e) => {
+        currentLang = e.target.value;
+        updateLanguage();
+    });
 
     // Attach Event Listeners
     revenueInput.addEventListener("input", calculate);
