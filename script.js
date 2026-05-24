@@ -142,6 +142,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const lWidth = (tLeads / maxVal) * 100;
             const cWidth = (tCustomers / maxVal) * 100;
 
+            let extraTooltip = '';
+            if (i === 3) {
+                const t = dictionary[currentLang];
+                extraTooltip = `
+                    <div class="static-tooltip" style="left: ${pWidth}%">
+                        ${t.monthTooltip} #${i}<br>
+                        ${t.prospectsTooltip}: ${tProspects}<br>
+                        ${t.leadsTooltip}: ${tLeads}<br>
+                        ${t.customersTooltip}: ${tCustomers}
+                    </div>
+                `;
+            }
+
             const row = document.createElement("div");
             row.className = "chart-row";
             
@@ -151,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="bar bar-prospects" style="width: ${pWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
                     <div class="bar bar-leads" style="width: ${lWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
                     <div class="bar bar-customers" style="width: ${cWidth}%" data-month="${i}" data-p="${tProspects}" data-l="${tLeads}" data-c="${tCustomers}"></div>
+                    ${extraTooltip}
                 </div>
             `;
             chartContainer.appendChild(row);
